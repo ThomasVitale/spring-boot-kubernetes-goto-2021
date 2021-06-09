@@ -1,0 +1,37 @@
+name: Delivery Pipeline
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  package-demo:
+    name: Demo Service - Build and Build and Publish Image
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Build container image
+        run: |
+          cd demo-service
+          chmod +x gradlew
+          ./gradlew bootBuildImage --publishImage -PregistryUrl=${{ secrets.REGISTRY_URL }} -PregistryUsername=${{ secrets.REGISTRY_USERNAME }} -PregistrySecret=${{ secrets.REGISTRY_TOKEN }}
+  package-native:
+    name: Demo Native - Build and Build and Publish Image
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Build container image
+        run: |
+          cd demo-native
+          chmod +x gradlew
+          ./gradlew bootBuildImage --publishImage -PregistryUrl=${{ secrets.REGISTRY_URL }} -PregistryUsername=${{ secrets.REGISTRY_USERNAME }} -PregistrySecret=${{ secrets.REGISTRY_TOKEN }}

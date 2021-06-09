@@ -1,0 +1,5 @@
+server:
+  port: 8181
+
+native:
+  service-url: http://localhost:8080

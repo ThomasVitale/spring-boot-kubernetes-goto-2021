@@ -1,0 +1,38 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.1-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.thomasvitale'
+version = '0.1'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+}
+
+bootBuildImage {
+	imageName = "${project.property("registryUrl")}/${project.name}:${project.version}"
+	publish = true
+	docker {
+		publishRegistry {
+			username = project.property("registryUsername")
+			password = project.property("registrySecret")
+			url = project.property("registryUrl")
+		}
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
