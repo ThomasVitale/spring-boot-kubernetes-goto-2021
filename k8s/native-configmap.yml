@@ -4,7 +4,7 @@ metadata:
   name: demo-native-config
 data:
   application.yml: |
-    demo:
+    native:
       service-url: http://demo-service
     server:
       shutdown: graceful

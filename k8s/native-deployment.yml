@@ -13,10 +13,6 @@ spec:
     metadata:
       labels:
         app: demo-native
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/path: "/actuator/prometheus"
-        prometheus.io/port: "8181"
     spec:
       terminationGracePeriodSeconds: 20
       containers:

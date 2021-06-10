@@ -1,6 +1,6 @@
 package com.thomasvitale.demonative;
 
-import java.net.URL;
+import java.net.URI;
 import java.time.Duration;
 
 import reactor.core.publisher.Flux;
@@ -43,7 +43,7 @@ class NativeController {
 				.uri("/")
 				.retrieve()
 				.bodyToMono(String.class)
-				.timeout(Duration.ofSeconds(1))
+				.timeout(Duration.ofSeconds(2))
 				.onErrorResume(exception -> Mono.empty())
 				.retryWhen(Retry.backoff(3, Duration.ofMillis(500)))
 				.concatWith(Mono.just(" And Spring Native rocks!"));
@@ -54,13 +54,13 @@ class NativeController {
 @ConfigurationProperties(prefix = "native")
 class NativeProperties {
 
-	private URL serviceUrl;
+	private URI serviceUrl;
 
-	URL getServiceUrl() {
+	URI getServiceUrl() {
 		return serviceUrl;
 	}
 
-	void setServiceUrl(URL serviceUrl) {
+	void setServiceUrl(URI serviceUrl) {
 		this.serviceUrl = serviceUrl;
 	}
 
